@@ -14,3 +14,10 @@ after_success:
   - docker build -t grindos/multi-nginx ./nginx
   - docker build -t grindos/multi-server ./server
   - docker build -t grindos/multi-worker ./worker
+  # Log in to the Docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push grindos/multi-client
+  - docker push grindos/multi-nginx
+  - docker push grindos/multi-server
+  - docker push grindos/multi-worker
