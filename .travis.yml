@@ -1,0 +1,15 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t grindos/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run grindos/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t grindos/multi-client ./client
+  - docker build -t grindos/multi-nginx ./nginx
+  - docker build -t grindos/multi-server ./server
+  - docker build -t grindos/multi-worker ./worker
